@@ -15,6 +15,9 @@
         <!-- nav section -->
         <nav>
             <ul>
+                <div class="logo">
+                    <img src="img/logo AV@3x.png" alt="logo" />
+                </div>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -24,18 +27,21 @@
 
         <!-- main section -->
         <main>
-
             <!-- home section -->
             <section id="home">
                 <div class="profile">
-                    <h1>Hi, I'm Arrafi</h1>
-                    <p>I'm a web developer</p>
-                    <p>12 projects</p>
-                    <p>8 clients</p>
-                    <button><a href="#about">See About Me</a></button>
-                    <button>
-                        <a href="PDF/cv arrafi.pdf" download>See my CV</a>
-                    </button>
+                    <div class="profile-info">
+                        <h1>Hi, I'm <span class="name">Arrafi</span></h1>
+                        <p>I'm a <span class="role">web developer</span></p>
+                        <p>12 projects</p>
+                        <p>8 clients</p>
+                    </div>
+                    <div class="profile-actions">
+                        <button><a href="#about">See About Me</a></button>
+                        <button>
+                            <a href="PDF/cv arrafi.pdf" download>See my CV</a>
+                        </button>
+                    </div>
                     <div class="profile photo">
                         <img
                             class="profile-base"
@@ -61,12 +67,66 @@
             <section id="projects">
                 <h2>My Projects</h2>
                 <p>Check out some of my recent work.</p>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <img src="img/project1.jpg" alt="Project 1" />
+                        <h3>e-commerce</h3>
+                        <p>
+                            a simple e-commerce website built with HTML, CSS,
+                            and JavaScript.
+                        </p>
+                        <button>
+                            <a href="https://aureliooon.github.io/e-commerce/"
+                                >See Project</a
+                            >
+                        </button>
+                        <button>
+                            <a
+                                href="https://github.com/aureliooon/e-commerce"
+                                target="_blank"
+                                >See Code</a
+                            >
+                        </button>
+                    </div>
+                    <div class="project-card">
+                        <img src="img/project2.jpg" alt="Project 2" />
+                        <h3>cek khodam</h3>
+                        <p>a simple website to check your khodam.</p>
+                        <button>
+                            <a href="https://aureliooon.github.io/Cek-khodam/"
+                                >See Project</a
+                            >
+                        </button>
+                        <button>
+                            <a
+                                href="https://github.com/aureliooon/Cek-khodam"
+                                target="_blank"
+                                >See Code</a
+                            >
+                        </button>
+                    </div>
+                    <!-- Add more project cards as needed -->
+                </div>
             </section>
 
             <!-- contact section -->
             <section id="contact">
                 <h2>Contact Me</h2>
                 <p>Get in touch with me for potential opportunities.</p>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <h3>Email</h3>
+                        <p><a href="mailto:arafiizzaputra@gmail.com">arafiizzaputra@gmail.com</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Whatsapp</h3>
+                        <p><a href="https://wa.me/628123456789" target="_blank">+62 812-4371-3524</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <h3>Instagram</h3>
+                        <p><a href="https://www.instagram.com/arf.vx" target="_blank">@ARF.VX</a></p>
+                    </div>
+                </div>
             </section>
         </main>
     </body>
