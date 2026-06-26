@@ -1,255 +1,190 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Portofolio Badut</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <!-- laoding section -->
-        <div class="loading">
-            <div class="loader"></div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arrafi | Astronomy Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="loading">
+        <div class="loader"></div>
+    </div>
+
+    <nav>
+        <div class="nav-brand">
+            <img src="img/logo AV@3x.png" alt="Logo" />
+            <div>
+                <span class="brand-title">Arrafi</span>
+                <span class="brand-tag">Cosmic Webcraft</span>
+            </div>
         </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#photography">Photography</a></li>
+            <li><a href="#design">Design</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-        <!-- nav section -->
-        <nav>
-            <ul>
-                <div class="logo">
-                    <img src="img/logo AV@3x.png" alt="logo" />
-                </div>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#photography">My Photography</a></li>
-                <li><a href="#design">My Design</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-
-        <!-- main section -->
-        <main>
-            <!-- home section -->
-            <section id="home">
-                <div class="profile">
-                    <div class="profile-info">
-                        <h1>Hi, I'm <span class="name">Arrafi</span></h1>
-                        <p>I'm a <span class="role">web developer</span></p>
-                        <p>12 projects</p>
-                        <p>8 clients</p>
+    <main>
+        <section id="home" class="section home-section">
+            <canvas id="space-canvas"></canvas>
+            <div class="hero-earth"></div>
+            <div class="home-overlay">
+                <div class="hero-copy">
+                    <span class="eyebrow">Astronomy Portfolio</span>
+                    <h1>Hi, I'm <span class="name">Arrafi</span></h1>
+                    <p class="hero-text">Building cosmic digital experiences with a responsive 3D Earth, stellar animations, and a bold space-inspired design.</p>
+                    <div class="hero-stats">
+                        <span>12 projects</span>
+                        <span>8 clients</span>
+                        <span>Stargazer</span>
                     </div>
-                    <div class="profile-actions">
-                        <button><a href="#about">See About Me</a></button>
-                        <button>
-                            <a href="PDF/cv arrafi.pdf" download>See my CV</a>
-                        </button>
-                    </div>
-                    <div class="profile photo">
-                        <img
-                            class="profile-base"
-                            src="img/profile.jpeg"
-                            alt="Profile Photo"
-                        />
-                        <img
-                            class="profile-morph"
-                            src="img/profile-morph.png"
-                            alt="Profile Photo Morph"
-                        />
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#about">Explore My Journey</a>
+                        <a class="btn btn-secondary" href="PDF/cv arrafi.pdf" download>Download CV</a>
                     </div>
                 </div>
-            </section>
+                <div class="hero-avatar">
+                    <div class="avatar-ring"></div>
+                    <img class="profile-base" src="img/profile.jpeg" alt="Profile Photo" />
+                </div>
+            </div>
+        </section>
 
-            <!-- about section -->
-            <section id="about">
-                <h2>About Me</h2>
-                <p>Learn more about my background and skills.</p>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <h3>Name</h3>
-                        <p>Arrafi Izzaputra Febriansyah</p>
-                    </div>
-                    <div class="about-card">
-                        <h3>Experience</h3>
-                        <p>6 years</p>
-                    </div>
-                    <div class="about-card school">
-                        <h3>Education</h3>
-                        <p>SD Negeri Jemurwonosari 1 Surabaya</p>
-                        <p>SMP Negeri 57 Surabaya</p>
-                        <p>SMA Muhammadiyah 2 Surabaya</p>
-                    </div>
-                    <div class="hobbies">
-                        <h3>Hobbies</h3>
-                        <p>Photography</p>
-                        <p>Reading</p>
-                        <p>Traveling</p>
-                        <p>Drawing</p>
-                        <p>Designing</p>
-                        <p>Stargazer</p>
-                        <p>Gym</p>
-                        <p>Listening Music</p>
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <p>My work blends clean front-end craftsmanship with a cosmic aesthetic. I create polished websites, interactive visuals, and immersive user experiences.</p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>Name</h3>
+                    <p>Arrafi Izzaputra Febriansyah</p>
+                </div>
+                <div class="about-card">
+                    <h3>Experience</h3>
+                    <p>6 years</p>
+                </div>
+                <div class="about-card school">
+                    <h3>Education</h3>
+                    <p>SD Negeri Jemurwonosari 1 Surabaya</p>
+                    <p>SMP Negeri 57 Surabaya</p>
+                    <p>SMA Muhammadiyah 2 Surabaya</p>
+                </div>
+                <div class="about-card hobbies">
+                    <h3>Hobbies</h3>
+                    <p>Photography</p>
+                    <p>Reading</p>
+                    <p>Traveling</p>
+                    <p>Drawing</p>
+                    <p>Designing</p>
+                    <p>Stargazer</p>
+                    <p>Gym</p>
+                    <p>Listening Music</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <h2>Stellar Skills</h2>
+            <p>Core tools and technologies used to build responsive, polished experiences.</p>
+            <div class="skill-tags">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>React</span>
+                <span>Figma</span>
+                <span>Photoshop</span>
+                <span>Illustrator</span>
+                <span>Three.js</span>
+                <span>GSAP</span>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2>Projects in Orbit</h2>
+            <p>Selected work that showcases design systems, interactions, and polished user journeys.</p>
+            <div class="project-grid">
+                <div class="project-card">
+                    <h3>E-commerce</h3>
+                    <p>A clean online shopping experience built with HTML, CSS, and JavaScript.</p>
+                    <div class="project-actions">
+                        <a class="btn btn-secondary" href="https://aureliooon.github.io/e-commerce/">See Project</a>
+                        <a class="btn btn-secondary" href="https://github.com/aureliooon/e-commerce" target="_blank">See Code</a>
                     </div>
                 </div>
-            </section>
-            
-            <!-- skills section -->
-            <section id="skills">
-                <h2>My Skills</h2>
-                <p>tech stack</p>
-                <p>(logo html, css, js, react, figma, photoshop, illustrator)</p>
-            </section>
-
-            <!-- projects section -->
-            <section id="projects">
-                <h2>My Projects</h2>
-                <p>Check out some of my recent work.</p>
-                <div class="project-grid">
-                    <div class="project-card">
-                        <h3>e-commerce</h3>
-                        <p>
-                            a simple e-commerce website built with HTML, CSS,
-                            and JavaScript.
-                        </p>
-                        <button>
-                            <a href="https://aureliooon.github.io/e-commerce/"
-                                >See Project</a
-                            >
-                        </button>
-                        <button>
-                            <a
-                                href="https://github.com/aureliooon/e-commerce"
-                                target="_blank"
-                                >See Code</a
-                            >
-                        </button>
-                    </div>
-                    <div class="project-card">
-                        <h3>cek khodam</h3>
-                        <p>a simple website to check your khodam.</p>
-                        <button>
-                            <a href="https://aureliooon.github.io/Cek-khodam/"
-                                >See Project</a
-                            >
-                        </button>
-                        <button>
-                            <a
-                                href="https://github.com/aureliooon/Cek-khodam"
-                                target="_blank"
-                                >See Code</a
-                            >
-                        </button>
-                    </div>
-
-                    <div class="project-card">
-                        <h3>Flower</h3>
-                        <p>
-                            A simple flower shop website built with HTML, CSS,
-                            and JavaScript.
-                        </p>
-                        <button>
-                            <a href="https://aureliooon.github.io/Flower/"
-                                >See Project</a
-                            >
-                        </button>
-                        <button>
-                            <a
-                                href="https://github.com/aureliooon/Flower"
-                                target="_blank"
-                                >See Code</a
-                            >
-                        </button>
-                    </div>
-                    <!-- Add more project cards as needed -->
-                </div>
-            </section>
-
-            <!-- photography section -->
-            <section id="photography">
-                <h2>My Photography Folder</h2>
-                <div class="photos-grid">
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6080.JPG" alt="Photo 1" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_2396.JPG" alt="Photo 2" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6090.JPG" alt="Photo 3" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6110.JPG" alt="Photo 4" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6134.JPG" alt="Photo 5" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6184.JPG" alt="Photo 6" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6238.JPG" alt="Photo 7" />
-                    </div>
-                    
-                </div>
-            </section>
-
-            <!-- design section -->
-            <section id="design">
-                <h2>My Design Folder</h2>
-                <div class="designs-grid">
-                    <div class="design-card">
-                        <img src="img/1.jpg" alt="Design 1" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/2.jpg" alt="Design 2" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/3.jpg" alt="Design 3" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/4.jpg" alt="Design 4" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/5.jpg" alt="Design 5" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/6.jpg" alt="Design 6" />
+                <div class="project-card">
+                    <h3>Cek Khodam</h3>
+                    <p>An interactive website to explore your khodam with a simple user flow.</p>
+                    <div class="project-actions">
+                        <a class="btn btn-secondary" href="https://aureliooon.github.io/Cek-khodam/">See Project</a>
+                        <a class="btn btn-secondary" href="https://github.com/aureliooon/Cek-khodam" target="_blank">See Code</a>
                     </div>
                 </div>
-
-            <!-- contact section -->
-            <section id="contact">
-                <h2>Contact Me</h2>
-                <p>Get in touch with me for potential opportunities.</p>
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <h3>Email</h3>
-                        <p>
-                            <a href="mailto:arafiizzaputra@gmail.com"
-                                >arafiizzaputra@gmail.com</a
-                            >
-                        </p>
-                    </div>
-                    <div class="contact-card">
-                        <h3>Whatsapp</h3>
-                        <p>
-                            <a href="https://wa.me/628123456789" target="_blank"
-                                >+62 812-4371-3524</a
-                            >
-                        </p>
-                    </div>
-                    <div class="contact-card">
-                        <h3>Instagram</h3>
-                        <p>
-                            <a
-                                href="https://www.instagram.com/arf.vx"
-                                target="_blank"
-                                >@ARF.VX</a
-                            >
-                        </p>
+                <div class="project-card">
+                    <h3>Flower</h3>
+                    <p>A stylish flower shop website created with clean HTML, CSS, and JavaScript.</p>
+                    <div class="project-actions">
+                        <a class="btn btn-secondary" href="https://aureliooon.github.io/Flower/">See Project</a>
+                        <a class="btn btn-secondary" href="https://github.com/aureliooon/Flower" target="_blank">See Code</a>
                     </div>
                 </div>
-            </section>
-        </main>
-    </body>
+            </div>
+        </section>
+
+        <section id="photography" class="section">
+            <h2>Stellar Photography</h2>
+            <p>A selection of photography work with cinematic color and mood.</p>
+            <div class="photos-grid">
+                <div class="photo-card"><img src="img/photography/IMG_6080.JPG" alt="Photo 1" /></div>
+                <div class="photo-card"><img src="img/photography/IMG_2396.JPG" alt="Photo 2" /></div>
+                <div class="photo-card"><img src="img/photography/IMG_6090.JPG" alt="Photo 3" /></div>
+                <div class="photo-card"><img src="img/photography/IMG_6110.JPG" alt="Photo 4" /></div>
+                <div class="photo-card"><img src="img/photography/IMG_6134.JPG" alt="Photo 5" /></div>
+                <div class="photo-card"><img src="img/photography/IMG_6184.JPG" alt="Photo 6" /></div>
+                <div class="photo-card"><img src="img/photography/IMG_6238.JPG" alt="Photo 7" /></div>
+            </div>
+        </section>
+
+        <section id="design" class="section">
+            <h2>Cosmic Design</h2>
+            <p>Design assets, branding, and visual systems with a polished, modern style.</p>
+            <div class="designs-grid">
+                <div class="design-card"><img src="img/1.jpg" alt="Design 1" /></div>
+                <div class="design-card"><img src="img/2.jpg" alt="Design 2" /></div>
+                <div class="design-card"><img src="img/3.jpg" alt="Design 3" /></div>
+                <div class="design-card"><img src="img/4.jpg" alt="Design 4" /></div>
+                <div class="design-card"><img src="img/5.jpg" alt="Design 5" /></div>
+                <div class="design-card"><img src="img/6.jpg" alt="Design 6" /></div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Mission Control</h2>
+            <p>Connect with me for collaboration, freelance work, or new projects.</p>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Email</h3>
+                    <p><a href="mailto:arafiizzaputra@gmail.com">arafiizzaputra@gmail.com</a></p>
+                </div>
+                <div class="contact-card">
+                    <h3>Whatsapp</h3>
+                    <p><a href="https://wa.me/628123456789" target="_blank">+62 812-4371-3524</a></p>
+                </div>
+                <div class="contact-card">
+                    <h3>Instagram</h3>
+                    <p><a href="https://www.instagram.com/arf.vx" target="_blank">@ARF.VX</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r154/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
 </html>
