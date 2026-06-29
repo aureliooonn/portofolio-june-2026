@@ -10,6 +10,68 @@ function hideLoader() {
     }, 320);
 }
 
+// Enhanced Navbar Interactivity
+function initNavbarInteraction() {
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const navBrand = document.querySelector('.nav-brand');
+    
+    // Add smooth scroll listener for active state
+    const updateActiveLink = () => {
+        const scrollPosition = window.scrollY + 100;
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (!href.startsWith('#')) return;
+            
+            const section = document.querySelector(href);
+            if (!section) return;
+            
+            const { offsetTop, offsetHeight } = section;
+            const isActive = scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight;
+            
+            if (isActive) {
+                navLinks.forEach(l => l.dataset.active = 'false');
+                link.dataset.active = 'true';
+            }
+        });
+    };
+    
+    // Enhance nav links with interactive effects
+    navLinks.forEach((link, index) => {
+        link.addEventListener('mouseenter', (e) => {
+            navLinks.forEach((l, i) => {
+                if (i !== index) {
+                    l.style.opacity = '0.5';
+                    l.style.transform = 'scale(0.95)';
+                }
+            });
+        });
+        
+        link.addEventListener('mouseleave', () => {
+            navLinks.forEach((l) => {
+                l.style.opacity = '1';
+                l.style.transform = 'scale(1)';
+            });
+        });
+        
+        link.addEventListener('click', (e) => {
+            navLinks.forEach(l => l.dataset.active = 'false');
+            link.dataset.active = 'true';
+        });
+    });
+    
+    // Navbar brand glow effect on scroll
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        if (scrolled > 100) {
+            navBrand?.style.setProperty('--glow-opacity', '0.8');
+        } else {
+            navBrand?.style.setProperty('--glow-opacity', '0.4');
+        }
+        updateActiveLink();
+    }, { passive: true });
+}
+
 function markSceneFallback() {
     document.body.classList.add('scene-fallback');
 }
@@ -425,6 +487,12 @@ function initializePortfolio() {
     } catch (error) {
         console.error('Scene init failed:', error);
         markSceneFallback();
+    }
+
+    try {
+        initNavbarInteraction();
+    } catch (error) {
+        console.error('Navbar interaction init failed:', error);
     }
 
     try {
