@@ -1,293 +1,227 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Arrafi | Astronomy Portfolio</title>
+        <meta
+            name="description"
+            content="Portofolio Arrafi Izzaputra Febriansyah dengan tema astronomi, karya web, desain, dan fotografi."
+        />
+        <title>Arrafi | Portofolio Astronomi</title>
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <div class="loading">
+        <div class="loading" aria-hidden="true">
             <div class="loader"></div>
         </div>
 
-        <nav>
-            <div class="nav-brand">
-                <img src="img/logo AV@3x.png" alt="Logo" />
-                <div>
-                    <span class="brand-title">Arrafi</span>
-                    <span class="brand-tag">Cosmic Webcraft</span>
-                </div>
-            </div>
+        <nav class="site-nav" aria-label="Navigasi utama">
+            <a class="nav-brand" href="#beranda" aria-label="Arrafi beranda">
+                <img src="img/logo AV@3x.png" alt="" />
+                <span>
+                    <strong>Arrafi</strong>
+                    <small>Visual orbit</small>
+                </span>
+            </a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#photography">Photography</a></li>
-                <li><a href="#design">Design</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#profil">Profil</a></li>
+                <li><a href="#karya">Karya</a></li>
+                <li><a href="#visual">Visual</a></li>
+                <li><a href="#kontak">Kontak</a></li>
             </ul>
         </nav>
 
         <main>
-            <section id="home" class="section home-section">
-                <canvas id="space-canvas"></canvas>
-                <div class="hero-earth"></div>
-                <div class="home-overlay">
+            <section id="beranda" class="hero-section" aria-label="Beranda">
+                <canvas id="space-canvas" aria-hidden="true"></canvas>
+                <div class="hero-scrim" aria-hidden="true"></div>
+                <div class="hero-content">
                     <div class="hero-copy">
-                        <span class="eyebrow">Astronomy Portfolio</span>
-                        <h1>Hi, I'm <span class="name">Arrafi</span></h1>
-                        <p class="hero-text">
-                            Building cosmic digital experiences with a
-                            responsive 3D Earth, stellar animations, and a bold
-                            space-inspired design.
+                        <span class="eyebrow">Portofolio astronomi</span>
+                        <h1>Arrafi Izzaputra Febriansyah</h1>
+                        <p>
+                            Saya merancang pengalaman web, visual desain, dan
+                            fotografi dengan rasa eksplorasi: rapi secara
+                            teknis, kuat secara visual, dan punya atmosfer.
                         </p>
-                        <div class="hero-stats">
-                            <span>12 projects</span>
-                            <span>8 clients</span>
-                            <span>Stargazer</span>
-                        </div>
                         <div class="hero-actions">
-                            <a class="btn btn-primary" href="#about"
-                                >Explore My Journey</a
-                            >
-                            <a
-                                class="btn btn-secondary"
-                                href="PDF/cv arrafi.pdf"
-                                download
-                                >Download CV</a
-                            >
+                            <a class="btn btn-primary" href="#karya">Lihat karya</a>
+                            <a class="btn btn-secondary" href="PDF/CV arrafi.pdf" download>
+                                Unduh CV
+                            </a>
                         </div>
                     </div>
-                    <div class="hero-avatar">
-                        <div class="avatar-ring"></div>
-                        <img
-                            class="profile-base"
-                            src="img/profile.jpeg"
-                            alt="Profile Photo"
-                        />
+
+                    <div class="mission-panel" aria-label="Ringkasan portofolio">
+                        <p class="panel-label">Status orbit</p>
+                        <dl>
+                            <div>
+                                <dt>Fokus</dt>
+                                <dd>Web, desain, fotografi</dd>
+                            </div>
+                            <div>
+                                <dt>Basis</dt>
+                                <dd>Surabaya, Indonesia</dd>
+                            </div>
+                            <div>
+                                <dt>Mode</dt>
+                                <dd>Eksplorasi visual</dd>
+                            </div>
+                        </dl>
                     </div>
                 </div>
             </section>
 
-            <section id="about" class="section">
-                <h2>About Me</h2>
-                <p>
-                    My work blends clean front-end craftsmanship with a cosmic
-                    aesthetic. I create polished websites, interactive visuals,
-                    and immersive user experiences.
-                </p>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <h3>Name</h3>
-                        <p>Arrafi Izzaputra Febriansyah</p>
+            <section id="profil" class="section profile-section">
+                <div class="section-heading">
+                    <span class="eyebrow">Profil orbit</span>
+                    <h2>Membangun karya digital dengan arah visual yang jelas.</h2>
+                </div>
+                <div class="profile-layout">
+                    <div class="profile-copy">
+                        <p>
+                            Saya Arrafi, kreator web dan visual yang senang
+                            menggabungkan detail teknis dengan komposisi yang
+                            terasa hidup. Portofolio ini dibuat seperti ruang
+                            observasi: setiap bagian membantu pengunjung melihat
+                            kemampuan, karya, dan karakter visual saya dengan
+                            cepat.
+                        </p>
+                        <div class="education-line">
+                            <span>SD Negeri Jemurwonosari 1 Surabaya</span>
+                            <span>SMP Negeri 57 Surabaya</span>
+                            <span>SMA Muhammadiyah 2 Surabaya</span>
+                        </div>
                     </div>
-                    <div class="about-card">
-                        <h3>Experience</h3>
-                        <p>6 years</p>
-                    </div>
-                    <div class="about-card school">
-                        <h3>Education</h3>
-                        <p>SD Negeri Jemurwonosari 1 Surabaya</p>
-                        <p>SMP Negeri 57 Surabaya</p>
-                        <p>SMA Muhammadiyah 2 Surabaya</p>
-                    </div>
-                    <div class="about-card hobbies">
-                        <h3>Hobbies</h3>
-                        <p>Photography</p>
-                        <p>Reading</p>
-                        <p>Traveling</p>
-                        <p>Drawing</p>
-                        <p>Designing</p>
-                        <p>Stargazer</p>
-                        <p>Gym</p>
-                        <p>Listening Music</p>
+                    <div class="toolkit-panel">
+                        <h3>Toolkit</h3>
+                        <div class="skill-tags" aria-label="Daftar kemampuan">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                            <span>React</span>
+                            <span>Figma</span>
+                            <span>Photoshop</span>
+                            <span>Illustrator</span>
+                            <span>Three.js</span>
+                            <span>GSAP</span>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section id="skills" class="section">
-                <h2>Stellar Skills</h2>
-                <p>
-                    Core tools and technologies used to build responsive,
-                    polished experiences.
-                </p>
-                <div class="skill-tags">
-                    <span>HTML</span>
-                    <span>CSS</span>
-                    <span>JavaScript</span>
-                    <span>React</span>
-                    <span>Figma</span>
-                    <span>Photoshop</span>
-                    <span>Illustrator</span>
-                    <span>Three.js</span>
-                    <span>GSAP</span>
+            <section id="karya" class="section works-section">
+                <div class="section-heading">
+                    <span class="eyebrow">Karya terpilih</span>
+                    <h2>Proyek yang sudah mengudara.</h2>
                 </div>
-            </section>
-
-            <section id="projects" class="section">
-                <h2>Projects in Orbit</h2>
-                <p>
-                    Selected work that showcases design systems, interactions,
-                    and polished user journeys.
-                </p>
                 <div class="project-grid">
-                    <div class="project-card">
+                    <article class="project-card">
+                        <span class="project-marker">Commerce</span>
                         <h3>E-commerce</h3>
                         <p>
-                            A clean online shopping experience built with HTML,
-                            CSS, and JavaScript.
+                            Tampilan toko online sederhana dengan alur belanja
+                            yang bersih dan mudah dipahami.
                         </p>
                         <div class="project-actions">
-                            <a
-                                class="btn btn-secondary"
-                                href="https://aureliooon.github.io/e-commerce/"
-                                >See Project</a
-                            >
-                            <a
-                                class="btn btn-secondary"
-                                href="https://github.com/aureliooon/e-commerce"
-                                target="_blank"
-                                >See Code</a
-                            >
+                            <a href="https://aureliooon.github.io/e-commerce/">Live</a>
+                            <a href="https://github.com/aureliooon/e-commerce" target="_blank" rel="noreferrer">
+                                Code
+                            </a>
                         </div>
-                    </div>
-                    <div class="project-card">
+                    </article>
+
+                    <article class="project-card">
+                        <span class="project-marker">Interaktif</span>
                         <h3>Cek Khodam</h3>
                         <p>
-                            An interactive website to explore your khodam with a
-                            simple user flow.
+                            Website interaktif ringan dengan pengalaman input
+                            yang langsung, playful, dan mudah dibagikan.
                         </p>
                         <div class="project-actions">
-                            <a
-                                class="btn btn-secondary"
-                                href="https://aureliooon.github.io/Cek-khodam/"
-                                >See Project</a
-                            >
-                            <a
-                                class="btn btn-secondary"
-                                href="https://github.com/aureliooon/Cek-khodam"
-                                target="_blank"
-                                >See Code</a
-                            >
+                            <a href="https://aureliooon.github.io/Cek-khodam/">Live</a>
+                            <a href="https://github.com/aureliooon/Cek-khodam" target="_blank" rel="noreferrer">
+                                Code
+                            </a>
                         </div>
-                    </div>
-                    <div class="project-card">
+                    </article>
+
+                    <article class="project-card">
+                        <span class="project-marker">Landing</span>
                         <h3>Flower</h3>
                         <p>
-                            A stylish flower shop website created with clean
-                            HTML, CSS, and JavaScript.
+                            Website toko bunga dengan komposisi visual lembut,
+                            navigasi sederhana, dan struktur responsif.
                         </p>
                         <div class="project-actions">
-                            <a
-                                class="btn btn-secondary"
-                                href="https://aureliooon.github.io/Flower/"
-                                >See Project</a
-                            >
-                            <a
-                                class="btn btn-secondary"
-                                href="https://github.com/aureliooon/Flower"
-                                target="_blank"
-                                >See Code</a
-                            >
+                            <a href="https://aureliooon.github.io/Flower/">Live</a>
+                            <a href="https://github.com/aureliooon/Flower" target="_blank" rel="noreferrer">
+                                Code
+                            </a>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </section>
 
-            <section id="photography" class="section">
-                <h2>Stellar Photography</h2>
-                <p>
-                    A selection of photography work with cinematic color and
-                    mood.
-                </p>
-                <div class="photos-grid">
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6080.JPG" alt="Photo 1" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_2396.JPG" alt="Photo 2" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6090.JPG" alt="Photo 3" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6110.JPG" alt="Photo 4" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6134.JPG" alt="Photo 5" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6184.JPG" alt="Photo 6" />
-                    </div>
-                    <div class="photo-card">
-                        <img src="img/photography/IMG_6238.JPG" alt="Photo 7" />
-                    </div>
+            <section id="visual" class="section visual-section">
+                <div class="section-heading">
+                    <span class="eyebrow">Visual archive</span>
+                    <h2>Foto dan desain yang membentuk bahasa visual saya.</h2>
+                </div>
+                <div class="visual-grid">
+                    <figure class="visual-item visual-tall">
+                        <img src="img/photography/IMG_6080.JPG" alt="Fotografi karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item">
+                        <img src="img/design/packaging.png" alt="Desain packaging karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item">
+                        <img src="img/photography/IMG_2396.JPG" alt="Fotografi karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item">
+                        <img src="img/design/ig story.png" alt="Desain Instagram story karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item visual-wide">
+                        <img src="img/photography/IMG_6090.JPG" alt="Fotografi karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item">
+                        <img src="img/design/mario.png" alt="Desain ilustrasi Mario karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item">
+                        <img src="img/photography/IMG_6110.JPG" alt="Fotografi karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item">
+                        <img src="img/photography/IMG_6134.JPG" alt="Fotografi karya Arrafi" />
+                    </figure>
+                    <figure class="visual-item visual-wide">
+                        <img src="img/photography/IMG_6238.JPG" alt="Fotografi karya Arrafi" />
+                    </figure>
                 </div>
             </section>
 
-            <section id="design" class="section">
-                <h2>Cosmic Design</h2>
-                <p>
-                    Design assets, branding, and visual systems with a polished,
-                    modern style.
-                </p>
-                <div class="designs-grid">
-                    <div class="design-card">
-                        <img src="img/1.jpg" alt="Design 1" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/design/ig story.png" alt="Design 2" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/design/mario.png" alt="Design 3" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/design/packaging.png" alt="Design 4" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/5.jpg" alt="Design 5" />
-                    </div>
-                    <div class="design-card">
-                        <img src="img/6.jpg" alt="Design 6" />
-                    </div>
+            <section id="kontak" class="section contact-section">
+                <div class="contact-copy">
+                    <span class="eyebrow">Kontak</span>
+                    <h2>Mari buat sesuatu yang punya gravitasi visual.</h2>
+                    <p>
+                        Terbuka untuk kolaborasi, proyek web, desain visual,
+                        dan eksplorasi kreatif lainnya.
+                    </p>
                 </div>
-            </section>
-
-            <section id="contact" class="section">
-                <h2>Mission Control</h2>
-                <p>
-                    Connect with me for collaboration, freelance work, or new
-                    projects.
-                </p>
                 <div class="contact-grid">
-                    <div class="contact-card">
-                        <h3>Email</h3>
-                        <p>
-                            <a href="mailto:arafiizzaputra@gmail.com"
-                                >arafiizzaputra@gmail.com</a
-                            >
-                        </p>
-                    </div>
-                    <div class="contact-card">
-                        <h3>Whatsapp</h3>
-                        <p>
-                            <a href="https://wa.me/628123456789" target="_blank"
-                                >+62 812-4371-3524</a
-                            >
-                        </p>
-                    </div>
-                    <div class="contact-card">
-                        <h3>Instagram</h3>
-                        <p>
-                            <a
-                                href="https://www.instagram.com/arf.vx"
-                                target="_blank"
-                                >@ARF.VX</a
-                            >
-                        </p>
-                    </div>
+                    <a class="contact-card" href="mailto:arafiizzaputra@gmail.com">
+                        <span>Email</span>
+                        <strong>arafiizzaputra@gmail.com</strong>
+                    </a>
+                    <a class="contact-card" href="https://wa.me/6281243713524" target="_blank" rel="noreferrer">
+                        <span>WhatsApp</span>
+                        <strong>+62 812-4371-3524</strong>
+                    </a>
+                    <a class="contact-card" href="https://www.instagram.com/arf.vx" target="_blank" rel="noreferrer">
+                        <span>Instagram</span>
+                        <strong>@ARF.VX</strong>
+                    </a>
                 </div>
             </section>
         </main>
