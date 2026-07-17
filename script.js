@@ -12,12 +12,17 @@ function hideLoader() {
 
 // Enhanced Navbar Interactivity
 function initNavbarInteraction() {
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const navBrand = document.querySelector('.nav-brand');
+    const navLinks = document.querySelectorAll('.nav-item a');
+    const siteNav = document.querySelector('.site-nav');
 
-    // Add smooth scroll listener for active state
+    // Set initial scroll state
+    if (window.scrollY < 20) document.body.classList.add('at-top');
+
+    // Track active link on scroll
     const updateActiveLink = () => {
-        const scrollPosition = window.scrollY + 100;
+        const scrollPosition = window.scrollY + 120;
+
+        document.body.classList.toggle('at-top', window.scrollY < 20);
 
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
@@ -36,40 +41,17 @@ function initNavbarInteraction() {
         });
     };
 
-    // Enhance nav links with interactive effects
-    navLinks.forEach((link, index) => {
-        link.addEventListener('mouseenter', (e) => {
-            navLinks.forEach((l, i) => {
-                if (i !== index) {
-                    l.style.opacity = '0.5';
-                    l.style.transform = 'scale(0.95)';
-                }
-            });
-        });
-
-        link.addEventListener('mouseleave', () => {
-            navLinks.forEach((l) => {
-                l.style.opacity = '1';
-                l.style.transform = 'scale(1)';
-            });
-        });
-
+    // Click handler
+    navLinks.forEach((link) => {
         link.addEventListener('click', (e) => {
             navLinks.forEach(l => l.dataset.active = 'false');
             link.dataset.active = 'true';
         });
     });
 
-    // Navbar brand glow effect on scroll
-    window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        if (scrolled > 100) {
-            navBrand?.style.setProperty('--glow-opacity', '0.8');
-        } else {
-            navBrand?.style.setProperty('--glow-opacity', '0.4');
-        }
-        updateActiveLink();
-    }, { passive: true });
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+    window.addEventListener('resize', updateActiveLink, { passive: true });
+    updateActiveLink();
 }
 
 // CSS 3D Moon — mouse-follow tilt (no Three.js)

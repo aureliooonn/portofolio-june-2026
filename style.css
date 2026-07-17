@@ -247,38 +247,16 @@ img {
     }
 }
 
-@keyframes nav-glow {
-    0%, 100% {
-        box-shadow:
-            0 0 20px rgba(112, 214, 255, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-    50% {
-        box-shadow:
-            0 0 40px rgba(112, 214, 255, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    }
+/* Star indicator orbit ring — active nav link */
+@keyframes nav-star-orbit {
+    from { transform: rotate(0deg) translateX(10px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
 }
 
-@keyframes orbit-rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pulse-ring {
-    0% {
-        box-shadow: 0 0 0 0 rgba(112, 214, 255, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(112, 214, 255, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(112, 214, 255, 0);
-    }
+/* Nav scroll-in animation */
+@keyframes nav-enter {
+    from { opacity: 0; transform: translateY(-16px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes shooting-star {
@@ -325,6 +303,8 @@ img {
     }
 }
 
+/* ====== NAV — Celestial Navigation Console ====== */
+
 .site-nav {
     position: fixed;
     top: 18px;
@@ -334,249 +314,262 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 22px;
-    padding: 12px 24px;
-    border: 1.5px solid rgba(112, 214, 255, 0.24);
-    border-radius: 12px;
-    background:
-        linear-gradient(135deg, rgba(5, 7, 16, 0.94), rgba(16, 24, 40, 0.52)),
-        radial-gradient(circle at 16% 50%, rgba(112, 214, 255, 0.12), transparent 12rem),
-        radial-gradient(circle at 85% 20%, rgba(192, 132, 252, 0.08), transparent 14rem);
+    gap: 16px;
+    padding: 10px 20px;
+    border: 1px solid rgba(112, 214, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(5, 4, 10, 0.72);
     box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.4),
-        0 0 40px rgba(112, 214, 255, 0.12),
-        inset 0 1px 0 rgba(112, 214, 255, 0.12),
-        inset 0 -1px 0 rgba(255, 184, 107, 0.06);
-    backdrop-filter: blur(30px);
-    overflow: visible;
-    animation: nav-glow 3.8s ease-in-out infinite;
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(112, 214, 255, 0.04) inset,
+        0 0 60px rgba(112, 214, 255, 0.03);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    animation: nav-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition:
+        background 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
 }
 
-.site-nav::before {
+/* .is-scrolled state — set by JS */
+body:not(.at-top) .site-nav {
+    background: rgba(5, 4, 10, 0.88);
+    border-color: rgba(112, 214, 255, 0.16);
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(112, 214, 255, 0.06) inset,
+        0 0 60px rgba(112, 214, 255, 0.04);
+}
+
+/* Constellation connector line between nav items */
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+
+/* Connector line between star indicators */
+.nav-links::before {
     content: "";
     position: absolute;
-    inset: -1px;
-    border-radius: 12px;
-    z-index: -1;
-    background: linear-gradient(135deg, rgba(112, 214, 255, 0.2), rgba(192, 132, 252, 0.1));
-    opacity: 0.4;
+    left: 28px;
+    right: 28px;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        rgba(112, 214, 255, 0.06),
+        rgba(112, 214, 255, 0.12) 25%,
+        rgba(112, 214, 255, 0.12) 75%,
+        rgba(112, 214, 255, 0.06)
+    );
     pointer-events: none;
-    animation: orbit-rotate 60s linear infinite;
+    transform: translateY(-50%);
 }
 
-.site-nav::after {
+.nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Each link gets a star indicator */
+.nav-item a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 20px;
+    border-radius: 8px;
+    color: rgba(232, 243, 255, 0.6);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-decoration: none;
+    transition:
+        color 0.3s ease,
+        background 0.3s ease,
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+}
+
+/* Star dot — always present */
+.nav-item a::before {
     content: "";
     position: absolute;
-    left: 50%;
-    top: -8px;
-    width: 60px;
-    height: 8px;
-    background: linear-gradient(90deg, transparent, rgba(112, 214, 255, 0.3), transparent);
+    left: 8px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
     border-radius: 50%;
-    transform: translateX(-50%);
-    filter: blur(4px);
+    background: rgba(112, 214, 255, 0.2);
+    box-shadow: 0 0 6px rgba(112, 214, 255, 0.1);
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease;
     pointer-events: none;
 }
+
+/* Orbit ring — only visible on active */
+.nav-item a::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(112, 214, 255, 0.25);
+    opacity: 0;
+    transform: scale(0.8);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    box-shadow: 0 0 8px rgba(112, 214, 255, 0.06);
+}
+
+/* Orbiting dot inside the ring */
+.nav-item a .nav-star-orbit {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-item a .nav-star-orbit::before {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--ion-blue);
+    box-shadow: 0 0 8px rgba(112, 214, 255, 0.7);
+    top: -2px;
+    left: 50%;
+    margin-left: -2px;
+}
+
+/* ---- STATES ---- */
+
+/* Hover */
+.nav-item a:hover {
+    color: rgba(232, 243, 255, 0.92);
+    background: rgba(112, 214, 255, 0.06);
+    transform: translateY(-1px);
+}
+
+.nav-item a:hover::before {
+    background: rgba(112, 214, 255, 0.5);
+    box-shadow: 0 0 10px rgba(112, 214, 255, 0.3);
+}
+
+/* Active (data-active="true") */
+.nav-item a[data-active="true"] {
+    color: #f0f8ff;
+}
+
+.nav-item a[data-active="true"]::before {
+    background: var(--ion-blue);
+    box-shadow: 0 0 12px rgba(112, 214, 255, 0.5);
+}
+
+.nav-item a[data-active="true"]::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.nav-item a[data-active="true"] .nav-star-orbit {
+    opacity: 1;
+    animation: nav-star-orbit 3s linear infinite;
+}
+
+/* Focus-visible */
+.nav-item a:focus-visible {
+    outline: 2px solid var(--ion-blue);
+    outline-offset: 3px;
+}
+
+/* ====== BRAND ====== */
 
 .nav-brand {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    min-height: 56px;
-    min-width: max-content;
-    padding: 6px 16px 6px 6px;
-    border: 1.5px solid rgba(112, 214, 255, 0.28);
-    border-radius: 8px;
-    background:
-        linear-gradient(135deg, rgba(112, 214, 255, 0.08), rgba(192, 132, 252, 0.06)),
-        radial-gradient(circle at 20% 20%, rgba(112, 214, 255, 0.1), transparent);
+    min-height: 44px;
+    padding: 4px 14px 4px 4px;
+    border: 1px solid rgba(112, 214, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(112, 214, 255, 0.04);
     text-decoration: none;
     transition:
-        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
         border-color 0.3s ease,
         background 0.3s ease,
-        box-shadow 0.3s ease;
+        box-shadow 0.3s ease,
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
-    overflow: visible;
 }
 
-.nav-brand::before {
-    content: "";
-    position: absolute;
-    right: -4px;
-    top: 50%;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(112, 214, 255, 0.4);
-    transform: translateY(-50%);
-    box-shadow:
-        0 0 16px rgba(112, 214, 255, 0.24),
-        inset 0 0 8px rgba(112, 214, 255, 0.12);
-    pointer-events: none;
-    animation: pulse-ring 2.4s ease-in-out infinite;
+.nav-brand:hover {
+    border-color: rgba(112, 214, 255, 0.28);
+    background: rgba(112, 214, 255, 0.08);
+    box-shadow: 0 0 20px rgba(112, 214, 255, 0.08);
+    transform: translateY(-1px);
 }
 
-.nav-brand::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 8px;
-    background: linear-gradient(90deg, rgba(112, 214, 255, 0.1), transparent 30%, transparent 70%, rgba(192, 132, 252, 0.08));
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+.nav-brand:focus-visible {
+    outline: 2px solid var(--ion-blue);
+    outline-offset: 3px;
 }
 
 .nav-brand img {
-    width: 44px;
-    height: 44px;
-    border: 1.5px solid rgba(112, 214, 255, 0.32);
-    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(112, 214, 255, 0.18);
+    border-radius: 7px;
     object-fit: cover;
-    box-shadow:
-        0 0 24px rgba(112, 214, 255, 0.28),
-        inset 0 0 12px rgba(112, 214, 255, 0.1);
     transition: transform 0.3s ease;
 }
 
-.nav-brand:hover,
-.nav-brand:focus-visible {
-    transform: translateY(-2px);
-    border-color: rgba(112, 214, 255, 0.48);
-    background:
-        linear-gradient(135deg, rgba(112, 214, 255, 0.14), rgba(192, 132, 252, 0.1)),
-        radial-gradient(circle at 20% 20%, rgba(112, 214, 255, 0.16), transparent);
-    box-shadow:
-        0 12px 30px rgba(112, 214, 255, 0.2),
-        0 0 30px rgba(112, 214, 255, 0.16);
+.nav-brand:hover img {
+    transform: scale(1.04);
 }
 
-.nav-brand:hover::after,
-.nav-brand:focus-visible::after {
-    opacity: 1;
-}
-
-.nav-brand:hover img,
-.nav-brand:focus-visible img {
-    transform: scale(1.05) rotateZ(2deg);
-}
-
-.nav-brand strong,
-.nav-brand small {
+.nav-brand__text {
     display: block;
-    line-height: 1.05;
+    line-height: 1.1;
 }
 
-.nav-brand strong {
-    font-size: 1rem;
-    color: rgba(232, 243, 255, 0.96);
-    letter-spacing: 0.4px;
-}
-
-.nav-brand small {
-    margin-top: 2px;
-    color: var(--ion-blue);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 700;
-    opacity: 0.9;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    min-height: 56px;
-    margin: 0;
-    padding: 8px 12px;
-    border: 1.5px solid rgba(112, 214, 255, 0.18);
-    border-radius: 8px;
-    background:
-        linear-gradient(135deg, rgba(5, 4, 10, 0.4), rgba(16, 24, 40, 0.3)),
-        radial-gradient(circle at 50% 0%, rgba(112, 214, 255, 0.08), transparent 60%);
-    box-shadow:
-        inset 0 0 20px rgba(112, 214, 255, 0.04),
-        inset 0 1px 0 rgba(112, 214, 255, 0.08);
-    list-style: none;
-    transition: box-shadow 0.3s ease;
-}
-
-.nav-links:hover {
-    box-shadow:
-        inset 0 0 20px rgba(112, 214, 255, 0.08),
-        inset 0 1px 0 rgba(112, 214, 255, 0.12);
-}
-
-.nav-links a {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-    min-height: 42px;
-    padding: 0 16px;
-    border-radius: 6px;
-    color: rgba(232, 243, 255, 0.8);
-    font-size: 0.9rem;
-    font-weight: 700;
+.nav-brand__text strong {
+    display: block;
+    font-size: 0.95rem;
+    color: rgba(232, 243, 255, 0.95);
     letter-spacing: 0.3px;
-    text-decoration: none;
-    transition:
-        color 0.3s ease,
-        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-        background 0.3s ease;
-    overflow: hidden;
+    font-weight: 700;
 }
 
-.nav-links a::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-        circle at 50% 0%,
-        rgba(112, 214, 255, 0.24),
-        transparent 70%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(112, 214, 255, 0), rgba(112, 214, 255, 0.6), rgba(112, 214, 255, 0));
-    border-radius: 1px;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 0 12px rgba(112, 214, 255, 0.4);
-}
-
-.nav-links a:hover,
-.nav-links a:focus-visible {
-    color: #f0f8ff;
-    transform: translateY(-2px);
-    background: rgba(112, 214, 255, 0.1);
-    box-shadow: 0 4px 16px rgba(112, 214, 255, 0.16);
-}
-
-.nav-links a:hover::before,
-.nav-links a:focus-visible::before {
-    opacity: 1;
-}
-
-.nav-links a:hover::after,
-.nav-links a:focus-visible::after {
-    transform: scaleX(1);
+.nav-brand__text small {
+    display: block;
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.8;
 }
 
 .hero-section {
@@ -2006,21 +1999,48 @@ p {
         top: 12px;
         left: 14px;
         right: 14px;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
-        border-radius: 24px;
-    }
-
-    .site-nav::after {
-        display: none;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 14px;
     }
 
     .nav-links {
         width: 100%;
         justify-content: flex-start;
+        gap: 2px;
         overflow-x: auto;
         scrollbar-width: none;
+    }
+
+    .nav-links::before {
+        display: none;
+    }
+
+    .nav-item a {
+        padding: 6px 10px 6px 18px;
+        font-size: 0.8rem;
+    }
+
+    .nav-item a::before {
+        left: 5px;
+        width: 5px;
+        height: 5px;
+        margin-top: -2.5px;
+    }
+
+    .nav-item a::after {
+        left: 2px;
+        width: 10px;
+        height: 10px;
+        margin-top: -5px;
+    }
+
+    .nav-item a .nav-star-orbit {
+        left: 2px;
+        width: 10px;
+        height: 10px;
+        margin-top: -5px;
     }
 
     .hero-section {
@@ -2088,17 +2108,18 @@ p {
     }
 
     .nav-brand img {
-        width: 38px;
-        height: 38px;
+        width: 34px;
+        height: 34px;
     }
 
     .nav-links {
-        gap: 14px;
-        justify-content: flex-start;
+        gap: 2px;
     }
 
-    .nav-links a {
-        font-size: 0.86rem;
+    .nav-item a {
+        font-size: 0.78rem;
+        padding: 6px 8px 6px 16px;
+    }
         min-height: 34px;
         padding: 8px 12px;
         white-space: nowrap;
