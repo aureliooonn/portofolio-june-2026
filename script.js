@@ -85,14 +85,107 @@ function initScene() {
         return null;
     }
 
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x05040a, 0.016);
+    // --- Procedural Moon Texture ---
+    function createMoonTexture(size) {
+        const c = document.createElement('canvas');
+        c.width = size;
+        c.height = size;
+        const ctx = c.getContext('2d');
 
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 180);
-    camera.position.set(0, 0.1, 18);
+        // Base gradient
+        const grad = ctx.createRadialGradient(size * 0.42, size * 0.38, 0, size * 0.5, size * 0.5, size * 0.55);
+        grad.addColorStop(0, '#d4d0c8');
+        grad.addColorStop(0.35, '#c8c4ba');
+        grad.addColorStop(0.7, '#b8b4aa');
+        grad.addColorStop(1, '#8a8578');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, size, size);
 
-    const renderer = new THREE.WebGLRenderer({
-        canvas,
+        // Mare (dark plains)
+        const mareRegions = [
+            { x: 0.38, y: 0.32, rx: 0.16, ry: 0.12 },
+            { x: 0.55, y: 0.45, rx: 0.13, ry: 0.1 },
+            { x: 0.3,  y: 0.58, rx: 0.11, ry: 0.09 },
+            { x: 0.62, y: 0.28, rx: 0.09, ry: 0.07 },
+            { x: 0.45, y: 0.65, rx: 0.14, ry: 0.1 },
+        ];
+        mareRegions.forEach(function(m) {
+            ctx.fillStyle = 'rgba(120, 116, 108, 0.28)';
+            ctx.beginPath();
+            ctx.ellipse(m.x * size, m.y * size, m.rx * size, m.ry * size, 0, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        // Large craters
+        var craters = [];
+        for (var i = 0; i < 50; i++) {
+            craters.push({
+                x: Math.random(),
+                y: Math.random(),
+                r: 0.008 + Math.random() * 0.035,
+            });
+        }
+        craters.forEach(function(cr) {
+            var cx = cr.x * size;
+            var cy = cr.y * size;
+            var crR = cr.r * size;
+
+            // Rim
+            ctx.beginPath();
+            ctx.arc(cx, cy, crR, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(160, 155, 145, 0.32)';
+            ctx.lineWidth = Math.max(1, crR * 0.22);
+            ctx.stroke();
+
+            // Shadow
+            ctx.beginPath();
+            ctx.arc(cx + crR * 0.22, cy + crR * 0.22, crR * 0.75, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(90, 86, 78, 0.14)';
+            ctx.fill();
+
+            // Highlight
+            ctx.beginPath();
+            ctx.arc(cx - crR * 0.2, cy - crR * 0.2, crR * 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(220, 216, 208, 0.12)';
+            ctx.fill();
+        });
+
+        // Tiny crater dots
+        for (var j = 0; j < 200; j++) {
+            var tx = Math.random() * size;
+            var ty = Math.random() * size;
+            var tr = 0.5 + Math.random() * 2;
+            ctx.beginPath();
+            ctx.arc(tx, ty, tr, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(100, 96, 88, ' + (0.08 + Math.random() * 0.14) + ')';
+            ctx.fill();
+        }
+
+        // Surface noise (subtle)
+        var imgData = ctx.getImageData(0, 0, size, size);
+        var d = imgData.data;
+        for (var k = 0; k < d.length; k += 4) {
+            var noise = (Math.random() - 0.5) * 12;
+            d[k]     = Math.min(255, Math.max(0, d[k] + noise));
+            d[k + 1] = Math.min(255, Math.max(0, d[k + 1] + noise));
+            d[k + 2] = Math.min(255, Math.max(0, d[k + 2] + noise));
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        return new THREE.CanvasTexture(c);
+    }
+
+    var moonTexture = createMoonTexture(2048);
+
+    // --- Scene Setup ---
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x05040a, 0.012);
+
+    var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 200);
+    camera.position.set(0, 0.2, 16);
+
+    var renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
         alpha: true,
         antialias: true,
         powerPreference: 'high-performance',
@@ -100,125 +193,126 @@ function initScene() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x05040a, 0);
 
-    scene.add(new THREE.AmbientLight(0x6f8fb5, 0.5));
+    // --- Lighting ---
+    scene.add(new THREE.AmbientLight(0x6f8fb5, 0.4));
 
-    const keyLight = new THREE.PointLight(0x70d6ff, 2.1, 80);
-    keyLight.position.set(10, 8, 16);
+    var keyLight = new THREE.PointLight(0x70d6ff, 2.8, 90);
+    keyLight.position.set(8, 6, 14);
     scene.add(keyLight);
 
-    const warmLight = new THREE.PointLight(0xffb86b, 1.35, 70);
-    warmLight.position.set(-14, -6, 12);
+    var warmLight = new THREE.PointLight(0xffb86b, 1.6, 70);
+    warmLight.position.set(-12, -4, 10);
     scene.add(warmLight);
 
-    const violetLight = new THREE.PointLight(0xc084fc, 1.1, 60);
-    violetLight.position.set(6, -8, 6);
+    var violetLight = new THREE.PointLight(0xc084fc, 0.9, 60);
+    violetLight.position.set(4, -10, 6);
     scene.add(violetLight);
 
-    const orbitGroup = new THREE.Group();
-    scene.add(orbitGroup);
+    // --- Moon ---
+    var moonGroup = new THREE.Group();
+    scene.add(moonGroup);
 
-    function makePlanet({ radius, color, emissive, position, roughness = 0.48, metalness = 0.08 }) {
-        const geometry = new THREE.SphereGeometry(radius, 96, 96);
-        const material = new THREE.MeshStandardMaterial({
-            color,
-            roughness,
-            metalness,
-            emissive,
-            emissiveIntensity: 0.1,
-        });
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(...position);
-        orbitGroup.add(mesh);
-        return mesh;
-    }
-
-    const mainPlanet = makePlanet({
-        radius: 3.35,
-        color: 0x315a9e,
-        emissive: 0x08162d,
-        position: [4.7, -0.15, -2.4],
-        roughness: 0.34,
-    });
-
-    const planetTexture = new THREE.Group();
-    mainPlanet.add(planetTexture);
-    for (let i = 0; i < 10; i += 1) {
-        const band = new THREE.Mesh(
-            new THREE.TorusGeometry(3.37 + i * 0.003, 0.012, 8, 160),
-            new THREE.MeshBasicMaterial({
-                color: i % 2 === 0 ? 0x70d6ff : 0xffb86b,
-                transparent: true,
-                opacity: i % 2 === 0 ? 0.12 : 0.08,
-            })
-        );
-        band.rotation.x = Math.PI / 2 + (i - 5) * 0.045;
-        band.rotation.y = 0.24;
-        planetTexture.add(band);
-    }
-
-    const ring = new THREE.Mesh(
-        new THREE.RingGeometry(4.25, 5.05, 160),
-        new THREE.MeshBasicMaterial({
-            color: 0xffd4a3,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.26,
+    var moonMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(3.6, 128, 128),
+        new THREE.MeshStandardMaterial({
+            map: moonTexture,
+            roughness: 0.82,
+            metalness: 0.02,
+            emissive: 0x0e0d0a,
+            emissiveIntensity: 0.08,
         })
     );
-    ring.position.copy(mainPlanet.position);
-    ring.rotation.set(Math.PI / 2.45, 0.16, -0.32);
-    orbitGroup.add(ring);
+    moonMesh.position.set(3.8, 0, -3);
+    moonGroup.add(moonMesh);
 
-    const atmosphere = new THREE.Mesh(
-        new THREE.SphereGeometry(3.72, 96, 96),
+    // Atmosphere glow
+    var moonGlow = new THREE.Mesh(
+        new THREE.SphereGeometry(4.1, 96, 96),
         new THREE.MeshBasicMaterial({
             color: 0x70d6ff,
             transparent: true,
-            opacity: 0.13,
+            opacity: 0.09,
             side: THREE.BackSide,
             blending: THREE.AdditiveBlending,
         })
     );
-    atmosphere.position.copy(mainPlanet.position);
-    orbitGroup.add(atmosphere);
+    moonGlow.position.copy(moonMesh.position);
+    moonGroup.add(moonGlow);
 
-    const moons = [
-        makePlanet({ radius: 0.72, color: 0xffb86b, emissive: 0x2b1204, position: [-3.6, 2.2, -5.2] }),
-        makePlanet({ radius: 0.48, color: 0xc084fc, emissive: 0x170a28, position: [0.2, -2.8, -3.8] }),
-        makePlanet({ radius: 0.34, color: 0xe8f3ff, emissive: 0x102138, position: [-5.4, -0.8, -4.4] }),
-    ];
+    // Hover glow ring
+    var glowRing = new THREE.Mesh(
+        new THREE.RingGeometry(3.9, 4.3, 96),
+        new THREE.MeshBasicMaterial({
+            color: 0x70d6ff,
+            transparent: true,
+            opacity: 0,
+            side: THREE.DoubleSide,
+            blending: THREE.AdditiveBlending,
+        })
+    );
+    glowRing.position.copy(moonMesh.position);
+    glowRing.rotation.set(Math.PI / 2.5, 0.15, -0.2);
+    moonGroup.add(glowRing);
 
-    const orbitLines = [];
+    // Orbit ring around moon
+    var moonOrbitRing = new THREE.Mesh(
+        new THREE.TorusGeometry(5.2, 0.008, 8, 200),
+        new THREE.MeshBasicMaterial({
+            color: 0x70d6ff,
+            transparent: true,
+            opacity: 0.18,
+        })
+    );
+    moonOrbitRing.position.copy(moonMesh.position);
+    moonOrbitRing.rotation.set(Math.PI / 2.4, 0.2, -0.3);
+    moonGroup.add(moonOrbitRing);
+
+    // Second orbit ring (amber)
+    var moonOrbitRing2 = new THREE.Mesh(
+        new THREE.TorusGeometry(6.4, 0.006, 8, 200),
+        new THREE.MeshBasicMaterial({
+            color: 0xffb86b,
+            transparent: true,
+            opacity: 0.1,
+        })
+    );
+    moonOrbitRing2.position.copy(moonMesh.position);
+    moonOrbitRing2.rotation.set(Math.PI / 2.1, -0.3, 0.4);
+    moonGroup.add(moonOrbitRing2);
+
+    // Small decorative moons orbiting
+    var miniMoons = [];
     [
-        { radius: 6.4, color: 0x70d6ff, opacity: 0.13, rotation: [Math.PI / 2.52, 0.1, -0.1] },
-        { radius: 8.2, color: 0xc084fc, opacity: 0.1, rotation: [Math.PI / 2.28, -0.2, 0.2] },
-        { radius: 10.2, color: 0xffb86b, opacity: 0.08, rotation: [Math.PI / 2.65, 0.24, -0.34] },
-    ].forEach((item) => {
-        const orbit = new THREE.Mesh(
-            new THREE.TorusGeometry(item.radius, 0.01, 8, 220),
-            new THREE.MeshBasicMaterial({
-                color: item.color,
-                transparent: true,
-                opacity: item.opacity,
+        { radius: 0.32, color: 0xffb86b, emissive: 0x2b1204, orbitR: 5.8, speed: 0.0006, tilt: 0.3 },
+        { radius: 0.22, color: 0xc084fc, emissive: 0x170a28, orbitR: 7.0, speed: 0.0004, tilt: -0.4 },
+    ].forEach(function(cfg) {
+        var m = new THREE.Mesh(
+            new THREE.SphereGeometry(cfg.radius, 32, 32),
+            new THREE.MeshStandardMaterial({
+                color: cfg.color,
+                emissive: cfg.emissive,
+                emissiveIntensity: 0.15,
+                roughness: 0.5,
+                metalness: 0.1,
             })
         );
-        orbit.rotation.set(...item.rotation);
-        orbit.position.set(1.7, -0.1, -4);
-        orbitGroup.add(orbit);
-        orbitLines.push(orbit);
+        m.userData = { orbitR: cfg.orbitR, speed: cfg.speed, tilt: cfg.tilt, angle: Math.random() * Math.PI * 2 };
+        m.position.copy(moonMesh.position);
+        moonGroup.add(m);
+        miniMoons.push(m);
     });
 
-    const starGeometry = new THREE.BufferGeometry();
-    const starCount = 2600;
-    const starPositions = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount * 3; i += 3) {
-        starPositions[i] = (Math.random() - 0.5) * 170;
-        starPositions[i + 1] = (Math.random() - 0.5) * 110;
-        starPositions[i + 2] = (Math.random() - 0.5) * 150 - 18;
+    // --- Starfield ---
+    var starGeometry = new THREE.BufferGeometry();
+    var starCount = 2800;
+    var starPositions = new Float32Array(starCount * 3);
+    for (var i = 0; i < starCount * 3; i += 3) {
+        starPositions[i]     = (Math.random() - 0.5) * 180;
+        starPositions[i + 1] = (Math.random() - 0.5) * 120;
+        starPositions[i + 2] = (Math.random() - 0.5) * 160 - 20;
     }
     starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-
-    const starField = new THREE.Points(
+    var starField = new THREE.Points(
         starGeometry,
         new THREE.PointsMaterial({
             color: 0xe8f3ff,
@@ -230,16 +324,17 @@ function initScene() {
     );
     scene.add(starField);
 
-    const dustGeometry = new THREE.BufferGeometry();
-    const dustCount = 460;
-    const dustPositions = new Float32Array(dustCount * 3);
-    for (let i = 0; i < dustCount * 3; i += 3) {
-        dustPositions[i] = (Math.random() - 0.5) * 80;
-        dustPositions[i + 1] = (Math.random() - 0.5) * 50;
-        dustPositions[i + 2] = (Math.random() - 0.5) * 60 - 12;
+    // --- Nebula Dust ---
+    var dustGeometry = new THREE.BufferGeometry();
+    var dustCount = 500;
+    var dustPositions = new Float32Array(dustCount * 3);
+    for (var d = 0; d < dustCount * 3; d += 3) {
+        dustPositions[d]     = (Math.random() - 0.5) * 90;
+        dustPositions[d + 1] = (Math.random() - 0.5) * 55;
+        dustPositions[d + 2] = (Math.random() - 0.5) * 65 - 14;
     }
     dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
-    const nebulaDust = new THREE.Points(
+    var nebulaDust = new THREE.Points(
         dustGeometry,
         new THREE.PointsMaterial({
             color: 0xc084fc,
@@ -251,8 +346,12 @@ function initScene() {
     );
     scene.add(nebulaDust);
 
-    const pointer = { x: 0, y: 0 };
-    const target = { x: 0, y: 0 };
+    // --- Interaction ---
+    var pointer = { x: 0, y: 0 };
+    var target = { x: 0, y: 0 };
+    var moonTargetRot = { x: 0, y: 0 };
+    var moonCurrentRot = { x: 0, y: 0 };
+    var isHovering = false;
 
     function updatePointer(event) {
         pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -261,75 +360,124 @@ function initScene() {
 
     window.addEventListener('pointermove', updatePointer, { passive: true });
 
+    // Hover detection on moon
+    var raycaster = new THREE.Raycaster();
+    var mouseVec = new THREE.Vector2();
+
+    canvas.addEventListener('pointermove', function(e) {
+        var rect = canvas.getBoundingClientRect();
+        mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseVec.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouseVec, camera);
+        var hits = raycaster.intersectObject(moonMesh);
+        isHovering = hits.length > 0;
+        canvas.style.cursor = isHovering ? 'grab' : 'default';
+    });
+
+    canvas.addEventListener('pointerdown', function() {
+        if (isHovering) canvas.style.cursor = 'grabbing';
+    });
+    canvas.addEventListener('pointerup', function() {
+        canvas.style.cursor = isHovering ? 'grab' : 'default';
+    });
+
+    // --- Resize ---
     function resizeRenderer() {
-        const rect = hero.getBoundingClientRect();
-        const width = Math.max(1, Math.floor(rect.width));
-        const height = Math.max(1, Math.floor(rect.height));
-        renderer.setSize(width, height, false);
-        camera.aspect = width / height;
+        var rect = hero.getBoundingClientRect();
+        var w = Math.max(1, Math.floor(rect.width));
+        var h = Math.max(1, Math.floor(rect.height));
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
         camera.updateProjectionMatrix();
 
-        if (width < 700) {
+        if (w < 700) {
             camera.position.z = 22;
-            mainPlanet.position.set(1.8, 1.5, -4.6);
-            ring.position.copy(mainPlanet.position);
-            atmosphere.position.copy(mainPlanet.position);
-        } else if (width < 1000) {
-            camera.position.z = 20;
-            mainPlanet.position.set(2.8, 0.9, -3.5);
-            ring.position.copy(mainPlanet.position);
-            atmosphere.position.copy(mainPlanet.position);
+            moonMesh.position.set(1.5, 1.2, -5);
+        } else if (w < 1000) {
+            camera.position.z = 19;
+            moonMesh.position.set(2.5, 0.6, -3.8);
         } else {
-            camera.position.z = 18;
-            mainPlanet.position.set(4.7, -0.15, -2.4);
-            ring.position.copy(mainPlanet.position);
-            atmosphere.position.copy(mainPlanet.position);
+            camera.position.z = 16;
+            moonMesh.position.set(3.8, 0, -3);
         }
+
+        moonGlow.position.copy(moonMesh.position);
+        glowRing.position.copy(moonMesh.position);
+        moonOrbitRing.position.copy(moonMesh.position);
+        moonOrbitRing2.position.copy(moonMesh.position);
     }
 
     window.addEventListener('resize', resizeRenderer);
     resizeRenderer();
 
-    let animationId = 0;
+    // --- Animate ---
+    var animationId = 0;
 
     function animateScene() {
         animationId = window.requestAnimationFrame(animateScene);
 
-        target.x += (pointer.x - target.x) * 0.045;
-        target.y += (pointer.y - target.y) * 0.045;
+        target.x += (pointer.x - target.x) * 0.04;
+        target.y += (pointer.y - target.y) * 0.04;
 
-        const motionScale = reduceMotion ? 0.18 : 1;
-        mainPlanet.rotation.y += 0.0024 * motionScale;
-        mainPlanet.rotation.x += 0.00035 * motionScale;
-        planetTexture.rotation.z += 0.001 * motionScale;
-        ring.rotation.z += 0.0016 * motionScale;
-        atmosphere.rotation.y -= 0.001 * motionScale;
+        var ms = reduceMotion ? 0.15 : 1;
 
-        moons.forEach((moon, index) => {
-            moon.rotation.y += (0.003 + index * 0.001) * motionScale;
-            moon.position.x += Math.sin(Date.now() * 0.00022 + index) * 0.0014 * motionScale;
-            moon.position.y += Math.cos(Date.now() * 0.00018 + index) * 0.001 * motionScale;
+        // Moon follows mouse with tilt
+        moonTargetRot.y = target.x * 0.35;
+        moonTargetRot.x = -target.y * 0.2;
+        moonCurrentRot.x += (moonTargetRot.x - moonCurrentRot.x) * 0.06;
+        moonCurrentRot.y += (moonTargetRot.y - moonCurrentRot.y) * 0.06;
+
+        moonMesh.rotation.y += 0.0012 * ms;
+        moonMesh.rotation.x = moonCurrentRot.x;
+        moonMesh.rotation.z = moonCurrentRot.y * 0.15;
+
+        // Moon subtle float
+        var floatY = Math.sin(Date.now() * 0.0003) * 0.12 * ms;
+        var floatX = Math.cos(Date.now() * 0.0002) * 0.06 * ms;
+        moonMesh.position.y = (hero.clientWidth < 700 ? 1.2 : 0) + floatY;
+        moonMesh.position.x = (hero.clientWidth < 700 ? 1.5 : hero.clientWidth < 1000 ? 2.5 : 3.8) + floatX;
+
+        // Update glow positions to match moon
+        moonGlow.position.copy(moonMesh.position);
+        glowRing.position.copy(moonMesh.position);
+        moonOrbitRing.position.copy(moonMesh.position);
+        moonOrbitRing2.position.copy(moonMesh.position);
+
+        // Hover glow effect
+        var glowTarget = isHovering ? 0.22 : 0;
+        glowRing.material.opacity += (glowTarget - glowRing.material.opacity) * 0.08;
+        var atmoTarget = isHovering ? 0.16 : 0.09;
+        moonGlow.material.opacity += (atmoTarget - moonGlow.material.opacity) * 0.06;
+
+        // Orbit rings rotate
+        moonOrbitRing.rotation.z += 0.0008 * ms;
+        moonOrbitRing2.rotation.z -= 0.0005 * ms;
+
+        // Mini moons orbit
+        miniMoons.forEach(function(m) {
+            var ud = m.userData;
+            ud.angle += ud.speed * ms;
+            m.position.x = moonMesh.position.x + Math.cos(ud.angle) * ud.orbitR;
+            m.position.y = moonMesh.position.y + Math.sin(ud.angle) * ud.orbitR * Math.sin(ud.tilt);
+            m.position.z = moonMesh.position.z + Math.sin(ud.angle) * ud.orbitR * Math.cos(ud.tilt);
+            m.rotation.y += 0.003 * ms;
         });
 
-        orbitLines.forEach((orbit, index) => {
-            orbit.rotation.z += (0.00045 + index * 0.00018) * motionScale;
-        });
+        // Stars & dust drift
+        starField.rotation.y += 0.00006 * ms;
+        nebulaDust.rotation.y -= 0.0001 * ms;
 
-        starField.rotation.y += 0.00008 * motionScale;
-        nebulaDust.rotation.y -= 0.00012 * motionScale;
-        orbitGroup.rotation.y = target.x * 0.075;
-        orbitGroup.rotation.x = target.y * 0.04;
-
-        camera.position.x += (target.x * 0.7 - camera.position.x) * 0.025;
-        camera.position.y += (target.y * 0.45 + 0.1 - camera.position.y) * 0.025;
-        camera.lookAt(0.8, 0, -3.2);
+        // Camera follows pointer subtly
+        camera.position.x += (target.x * 0.6 - camera.position.x) * 0.02;
+        camera.position.y += (target.y * 0.35 + 0.2 - camera.position.y) * 0.02;
+        camera.lookAt(1.2, 0, -3);
 
         renderer.render(scene, camera);
     }
 
     animateScene();
 
-    return () => {
+    return function () {
         window.cancelAnimationFrame(animationId);
         window.removeEventListener('pointermove', updatePointer);
         window.removeEventListener('resize', resizeRenderer);
