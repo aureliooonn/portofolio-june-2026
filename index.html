@@ -8,6 +8,12 @@
             content="Portofolio Arrafi Izzaputra Febriansyah dengan tema astronomi, karya web, desain, dan fotografi."
         />
         <title>Arrafi | Portofolio Astronomi</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
@@ -36,6 +42,47 @@
             <section id="beranda" class="hero-section" aria-label="Beranda">
                 <canvas id="space-canvas" aria-hidden="true"></canvas>
                 <div class="hero-scrim" aria-hidden="true"></div>
+                <div class="shooting-stars" aria-hidden="true">
+                    <div class="shooting-star"></div>
+                    <div class="shooting-star shooting-star--delayed"></div>
+                    <div class="shooting-star shooting-star--slow"></div>
+                </div>
+                <div class="constellation-overlay" aria-hidden="true">
+                    <svg viewBox="0 0 1400 800" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="rgba(112,214,255,0.06)" stroke-width="1" fill="none">
+                            <line x1="120" y1="80" x2="280" y2="140"/>
+                            <line x1="280" y1="140" x2="350" y2="60"/>
+                            <line x1="350" y1="60" x2="500" y2="120"/>
+                            <line x1="500" y1="120" x2="440" y2="250"/>
+                            <line x1="440" y1="250" x2="280" y2="140"/>
+                            <line x1="800" y1="100" x2="920" y2="200"/>
+                            <line x1="920" y1="200" x2="1050" y2="150"/>
+                            <line x1="1050" y1="150" x2="1180" y2="280"/>
+                            <line x1="1180" y1="280" x2="1100" y2="380"/>
+                            <line x1="1100" y1="380" x2="920" y2="200"/>
+                            <line x1="600" y1="500" x2="750" y2="440"/>
+                            <line x1="750" y1="440" x2="880" y2="520"/>
+                            <line x1="880" y1="520" x2="820" y2="640"/>
+                            <line x1="820" y1="640" x2="600" y2="500"/>
+                        </g>
+                        <g fill="rgba(112,214,255,0.15)">
+                            <circle cx="120" cy="80" r="2"/>
+                            <circle cx="280" cy="140" r="3"/>
+                            <circle cx="350" cy="60" r="2"/>
+                            <circle cx="500" cy="120" r="2.5"/>
+                            <circle cx="440" cy="250" r="2"/>
+                            <circle cx="800" cy="100" r="2"/>
+                            <circle cx="920" cy="200" r="3"/>
+                            <circle cx="1050" cy="150" r="2.5"/>
+                            <circle cx="1180" cy="280" r="2"/>
+                            <circle cx="1100" cy="380" r="2"/>
+                            <circle cx="600" cy="500" r="2.5"/>
+                            <circle cx="750" cy="440" r="2"/>
+                            <circle cx="880" cy="520" r="2"/>
+                            <circle cx="820" cy="640" r="3"/>
+                        </g>
+                    </svg>
+                </div>
                 <div class="hero-content">
                     <div class="hero-copy">
                         <span class="eyebrow">Portofolio</span>
