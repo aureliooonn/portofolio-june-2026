@@ -87,13 +87,16 @@ function initScene() {
 
     // --- Procedural Moon Texture ---
     function createMoonTexture(size) {
-        const c = document.createElement('canvas');
+        var c = document.createElement('canvas');
         c.width = size;
         c.height = size;
-        const ctx = c.getContext('2d');
+        var ctx = c.getContext('2d');
 
-        // Base gradient
-        const grad = ctx.createRadialGradient(size * 0.42, size * 0.38, 0, size * 0.5, size * 0.5, size * 0.55);
+        // Base gradient (warm gray moon surface)
+        var grad = ctx.createRadialGradient(
+            size * 0.42, size * 0.38, 0,
+            size * 0.5, size * 0.5, size * 0.55
+        );
         grad.addColorStop(0, '#d4d0c8');
         grad.addColorStop(0.35, '#c8c4ba');
         grad.addColorStop(0.7, '#b8b4aa');
@@ -101,85 +104,103 @@ function initScene() {
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // Mare (dark plains)
-        const mareRegions = [
-            { x: 0.38, y: 0.32, rx: 0.16, ry: 0.12 },
-            { x: 0.55, y: 0.45, rx: 0.13, ry: 0.1 },
-            { x: 0.3,  y: 0.58, rx: 0.11, ry: 0.09 },
-            { x: 0.62, y: 0.28, rx: 0.09, ry: 0.07 },
-            { x: 0.45, y: 0.65, rx: 0.14, ry: 0.1 },
+        // Mare (dark plains) — the big dark patches on the moon
+        var mares = [
+            [0.38, 0.32, 0.16, 0.12],
+            [0.55, 0.45, 0.13, 0.10],
+            [0.30, 0.58, 0.11, 0.09],
+            [0.62, 0.28, 0.09, 0.07],
+            [0.45, 0.65, 0.14, 0.10],
+            [0.25, 0.42, 0.08, 0.06],
+            [0.70, 0.55, 0.10, 0.08],
         ];
-        mareRegions.forEach(function(m) {
-            ctx.fillStyle = 'rgba(120, 116, 108, 0.28)';
+        ctx.fillStyle = 'rgba(110, 106, 98, 0.3)';
+        mares.forEach(function(m) {
             ctx.beginPath();
-            ctx.ellipse(m.x * size, m.y * size, m.rx * size, m.ry * size, 0, 0, Math.PI * 2);
+            ctx.ellipse(m[0] * size, m[1] * size, m[2] * size, m[3] * size, 0, 0, Math.PI * 2);
             ctx.fill();
         });
 
-        // Large craters
-        var craters = [];
-        for (var i = 0; i < 50; i++) {
-            craters.push({
-                x: Math.random(),
-                y: Math.random(),
-                r: 0.008 + Math.random() * 0.035,
-            });
-        }
-        craters.forEach(function(cr) {
-            var cx = cr.x * size;
-            var cy = cr.y * size;
-            var crR = cr.r * size;
+        // Large craters with rim + shadow
+        var i, cx, cy, cr, crR;
+        for (i = 0; i < 40; i++) {
+            cx = Math.random() * size;
+            cy = Math.random() * size;
+            cr = 0.01 + Math.random() * 0.035;
+            crR = cr * size;
 
-            // Rim
+            // Rim (bright edge)
             ctx.beginPath();
             ctx.arc(cx, cy, crR, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(160, 155, 145, 0.32)';
-            ctx.lineWidth = Math.max(1, crR * 0.22);
+            ctx.strokeStyle = 'rgba(170, 165, 155, 0.35)';
+            ctx.lineWidth = Math.max(1, crR * 0.2);
             ctx.stroke();
 
-            // Shadow
+            // Shadow inside
             ctx.beginPath();
-            ctx.arc(cx + crR * 0.22, cy + crR * 0.22, crR * 0.75, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(90, 86, 78, 0.14)';
+            ctx.arc(cx + crR * 0.2, cy + crR * 0.2, crR * 0.7, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(80, 76, 68, 0.18)';
             ctx.fill();
 
-            // Highlight
+            // Highlight opposite side
             ctx.beginPath();
-            ctx.arc(cx - crR * 0.2, cy - crR * 0.2, crR * 0.5, 0, Math.PI * 2);
+            ctx.arc(cx - crR * 0.18, cy - crR * 0.18, crR * 0.45, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(220, 216, 208, 0.12)';
             ctx.fill();
-        });
+        }
+
+        // Medium craters
+        for (i = 0; i < 80; i++) {
+            cx = Math.random() * size;
+            cy = Math.random() * size;
+            crR = 2 + Math.random() * 8;
+            ctx.beginPath();
+            ctx.arc(cx, cy, crR, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(140, 135, 125, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
 
         // Tiny crater dots
-        for (var j = 0; j < 200; j++) {
-            var tx = Math.random() * size;
-            var ty = Math.random() * size;
-            var tr = 0.5 + Math.random() * 2;
+        for (i = 0; i < 150; i++) {
             ctx.beginPath();
-            ctx.arc(tx, ty, tr, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(100, 96, 88, ' + (0.08 + Math.random() * 0.14) + ')';
+            ctx.arc(
+                Math.random() * size,
+                Math.random() * size,
+                0.8 + Math.random() * 2.5,
+                0, Math.PI * 2
+            );
+            ctx.fillStyle = 'rgba(95, 90, 82, ' + (0.1 + Math.random() * 0.15) + ')';
             ctx.fill();
         }
 
-        // Surface noise (subtle)
-        var imgData = ctx.getImageData(0, 0, size, size);
-        var d = imgData.data;
-        for (var k = 0; k < d.length; k += 4) {
-            var noise = (Math.random() - 0.5) * 12;
-            d[k]     = Math.min(255, Math.max(0, d[k] + noise));
-            d[k + 1] = Math.min(255, Math.max(0, d[k + 1] + noise));
-            d[k + 2] = Math.min(255, Math.max(0, d[k + 2] + noise));
+        // Rays (bright ejecta lines from big impacts)
+        ctx.globalAlpha = 0.06;
+        ctx.strokeStyle = '#d8d4ca';
+        ctx.lineWidth = 1.5;
+        for (i = 0; i < 8; i++) {
+            var rx = Math.random() * size;
+            var ry = Math.random() * size;
+            var angle = Math.random() * Math.PI * 2;
+            var len = 40 + Math.random() * 120;
+            ctx.beginPath();
+            ctx.moveTo(rx, ry);
+            ctx.lineTo(rx + Math.cos(angle) * len, ry + Math.sin(angle) * len);
+            ctx.stroke();
         }
-        ctx.putImageData(imgData, 0, 0);
+        ctx.globalAlpha = 1;
 
-        return new THREE.CanvasTexture(c);
+        var tex = new THREE.CanvasTexture(c);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.ClampToEdgeWrapping;
+        return tex;
     }
 
-    var moonTexture = createMoonTexture(2048);
+    var moonTexture = createMoonTexture(1024);
 
     // --- Scene Setup ---
     var scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x05040a, 0.012);
+    scene.fog = new THREE.FogExp2(0x05040a, 0.008);
 
     var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 200);
     camera.position.set(0, 0.2, 16);
@@ -194,17 +215,17 @@ function initScene() {
     renderer.setClearColor(0x05040a, 0);
 
     // --- Lighting ---
-    scene.add(new THREE.AmbientLight(0x6f8fb5, 0.4));
+    scene.add(new THREE.AmbientLight(0x6f8fb5, 0.6));
 
-    var keyLight = new THREE.PointLight(0x70d6ff, 2.8, 90);
+    var keyLight = new THREE.PointLight(0x70d6ff, 3.2, 100);
     keyLight.position.set(8, 6, 14);
     scene.add(keyLight);
 
-    var warmLight = new THREE.PointLight(0xffb86b, 1.6, 70);
+    var warmLight = new THREE.PointLight(0xffb86b, 2.0, 80);
     warmLight.position.set(-12, -4, 10);
     scene.add(warmLight);
 
-    var violetLight = new THREE.PointLight(0xc084fc, 0.9, 60);
+    var violetLight = new THREE.PointLight(0xc084fc, 1.2, 70);
     violetLight.position.set(4, -10, 6);
     scene.add(violetLight);
 
@@ -212,15 +233,18 @@ function initScene() {
     var moonGroup = new THREE.Group();
     scene.add(moonGroup);
 
+    var moonMat = new THREE.MeshStandardMaterial({
+        color: 0xc8c4ba,
+        roughness: 0.78,
+        metalness: 0.02,
+        emissive: 0x1a1814,
+        emissiveIntensity: 0.18,
+    });
+    if (moonTexture) moonMat.map = moonTexture;
+
     var moonMesh = new THREE.Mesh(
         new THREE.SphereGeometry(3.6, 128, 128),
-        new THREE.MeshStandardMaterial({
-            map: moonTexture,
-            roughness: 0.82,
-            metalness: 0.02,
-            emissive: 0x0e0d0a,
-            emissiveIntensity: 0.08,
-        })
+        moonMat
     );
     moonMesh.position.set(3.8, 0, -3);
     moonGroup.add(moonMesh);
